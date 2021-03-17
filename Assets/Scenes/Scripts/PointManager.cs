@@ -9,29 +9,57 @@ public class PointManager : MonoBehaviour
     [SerializeField] private int pointsPerClick = 1;
     [SerializeField] private Text pointsText;
     [SerializeField] private Text upgradeText;
-    [SerializeField] private float pointsPerSecond;
-    [SerializeField] private float scoreConverter;
+    [SerializeField] private float pointTimer = 1.0f;
+    [SerializeField] private int income;
+
+    private int pointPerSecond = 0;
+
+    private float timer;
+
 
 
     private int costToUpdate = 5;
 
-    public void Start()
-    {
-        pointsPerSecond = 10;
-    }
+    //public void Start()
+    //{
+    //    //pointsPerSecond = 10;
+    //}
     public void Update()
     {
-        UpdateUpgradeText();
+        timer -= Time.deltaTime;
+        if (timer <= 0)
+        {
+            timer = 1;
+            points += pointPerSecond;
+        }
 
+        UpdateUpgradeText();
+        pointsText.text = points.ToString();
 
     }
 
-    public void PointsPerSecondUpgrade()
-    {
-        scoreConverter += pointsPerSecond * Time.deltaTime;
-        pointsPerSecond += Mathf.RoundToInt(scoreConverter);
+    //public void pointsPerSecond()
+    //{
+    //    pointTimer -= Time.deltaTime;
+    //    if (pointTimer <= 0)
+    //    {
+    //        pointTimer = 1.0f;
+    //        points += income;
 
-    } 
+    //    }
+    //    if {
+
+    //    }
+
+    //}
+
+
+    //public void PointsPerSecondUpgrade()
+    //{
+    //    scoreConverter += pointsPerSecond * Time.deltaTime;
+    //    pointsPerSecond += Mathf.RoundToInt(scoreConverter);
+
+    //} 
 
     public void AddPoints()
     {
@@ -91,10 +119,15 @@ public class PointManager : MonoBehaviour
         if (points >= costToUpdate && costToUpdate >= 10)
         {
             points -= costToUpdate;
-            pointsPerSecond = 30;
             costToUpdate = costToUpdate * 3;
+
+            //pointsPerSecond();
             UpdatePointsText();
             UpdateUpgradeText();
+
+
+
+            pointPerSecond++;
         }
 
     }
@@ -106,5 +139,6 @@ public class PointManager : MonoBehaviour
         pointsText.text = points.ToString();
 
     }
+   
 
 }
